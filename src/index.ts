@@ -7,6 +7,24 @@ export const copyToClip = (text: string) => {
   if (ta.parentElement) ta.parentElement.removeChild(ta);
 };
 
+export const copyHtmlToClip = (html: string) => {
+  const el = document.createElement('div');
+  el.innerHTML = html;
+  document.body.appendChild(el);
+  const range = document.createRange();
+  range.selectNode(el);
+
+  const selection = getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+
+  document.execCommand('copy');
+
+  selection.removeAllRanges();
+  document.execCommand('copy');
+  if (el.parentElement) el.parentElement.removeChild(el);
+};
+
 export const copyFromClip = (): string => {
   const ta = document.createElement('textarea');
   document.body.appendChild(ta);
